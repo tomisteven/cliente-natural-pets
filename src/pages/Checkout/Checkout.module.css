@@ -1,0 +1,136 @@
+.page {
+    padding: 158px 0 80px;
+}
+
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 4rem;
+}
+
+.checkoutForm {
+    background-color: var(--card-bg);
+    padding: 3rem;
+    border: 1px solid var(--border-color);
+}
+
+.sectionTitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formGroup.fullWidth {
+    grid-column: 1 / -1;
+}
+
+.label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+}
+
+.input,
+.select,
+.textarea {
+    padding: 1rem;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+    border-color: var(--accent-color);
+}
+
+.summary {
+    background-color: var(--bg-secondary);
+    padding: 2.5rem;
+    border: 1px solid var(--border-color);
+    height: fit-content;
+    position: sticky;
+    top: 138px;
+    /* 100px + 38px */
+}
+
+.summaryItem {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.summaryTotal {
+    margin-top: 2rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.discountRow {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.surchargeRow {
+    color: #ff4444;
+    font-weight: 600;
+}
+
+.finalRow {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: 0.5rem;
+}
+
+.error {
+    color: #ff4444;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+@media (max-width: 992px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,257 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4rem;
+    z-index: 1000;
+    transition: var(--transition-smooth);
+    background-color: transparent;
+}
+
+.headerScrolled {
+    background-color: var(--bg-color);
+    height: 70px;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: var(--transition-smooth);
+    text-decoration: none;
+}
+
+.brandName {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    letter-spacing: -1px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo:hover {
+    transform: translateY(-1px);
+}
+
+.logoSvg {
+    height: 48px;
+    width: 48px;
+    transition: var(--transition-smooth);
+    filter: drop-shadow(0 4px 8px rgba(3, 105, 161, 0.2));
+}
+
+.headerScrolled .logoSvg {
+    height: 38px;
+    width: 38px;
+}
+
+.nav {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.navLink {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+    opacity: 0.7;
+    transition: var(--transition-smooth);
+}
+
+.navLink:hover {
+    opacity: 1;
+    color: var(--accent-color);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.userSection {
+    display: flex;
+    align-items: center;
+}
+
+.loginBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+.loginBtn:hover {
+    opacity: 1;
+    color: var(--accent-color);
+}
+
+.userMenuContainer {
+    position: relative;
+}
+
+.userTrigger {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 700;
+    opacity: 0.9;
+    transition: var(--transition-smooth);
+}
+
+.userTrigger:hover {
+    color: var(--accent-color);
+}
+
+.userName {
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.userDropdown {
+    position: absolute;
+    top: calc(100% + 15px);
+    right: 0;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    min-width: 200px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+}
+
+.pointsBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(197, 160, 89, 0.1);
+    border-radius: 8px;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 0.8rem 0;
+}
+
+.dropdownItem {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    width: 100%;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    border-radius: 6px;
+    transition: var(--transition-smooth);
+}
+
+.dropdownItem:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.themeToggle {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    transition: var(--transition-smooth);
+    opacity: 0.8;
+}
+
+.themeToggle:hover {
+    opacity: 1;
+    color: var(--accent-color);
+    transform: rotate(15deg);
+}
+
+.cartIcon {
+    position: relative;
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.cartIcon:hover {
+    color: var(--accent-color);
+}
+
+.badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: var(--secondary-color);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(245, 158, 11, 0.4);
+    border: 2px solid var(--bg-color);
+}
+
+.mobileMenuBtn {
+    display: none;
+    cursor: pointer;
+    color: var(--text-primary);
+}
+
+@media (max-width: 992px) {
+    .header {
+        padding: 0 2rem;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .mobileMenuBtn {
+        display: block;
+    }
+
+    .userName {
+        display: none;
+    }
+}

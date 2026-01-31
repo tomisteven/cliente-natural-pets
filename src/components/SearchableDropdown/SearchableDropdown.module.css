@@ -1,0 +1,166 @@
+.dropdownContainer {
+    position: relative;
+    width: 100%;
+    font-family: inherit;
+}
+
+.selectionBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.selectionBox:hover {
+    border-color: var(--accent-color);
+}
+
+.selectionBox.active {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.1);
+}
+
+.placeholder {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.label {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.arrow {
+    color: var(--text-secondary);
+    transition: transform 0.3s ease;
+}
+
+.rotate {
+    transform: rotate(180deg);
+}
+
+.dropdownContent {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    border-radius: 4px;
+    overflow: hidden;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.searchBar {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    gap: 0.8rem;
+}
+
+.searchIcon {
+    color: var(--text-secondary);
+}
+
+.searchBar input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.clearIcon {
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.clearIcon:hover {
+    color: var(--accent-color);
+}
+
+.optionsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.optionsList::-webkit-scrollbar {
+    width: 6px;
+}
+
+.optionsList::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 10px;
+}
+
+.optionItem {
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.optionItem:hover {
+    background-color: rgba(197, 160, 89, 0.1);
+}
+
+.optionItem.selected {
+    background-color: rgba(197, 160, 89, 0.2);
+    border-left: 3px solid var(--accent-color);
+}
+
+.optionContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.optionLabel {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.optionSublabel {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.noOptions {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.hint {
+    padding: 0.6rem 1rem;
+    font-size: 0.7rem;
+    color: var(--accent-color);
+    background-color: rgba(197, 160, 89, 0.05);
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+}

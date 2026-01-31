@@ -1,0 +1,222 @@
+.page {
+    padding: 120px 0 80px;
+    background-color: var(--bg-color);
+    min-height: 100vh;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.title {
+    font-size: 4rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    letter-spacing: -2px;
+    color: var(--text-primary);
+}
+
+.subtitle {
+    color: var(--secondary-color);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-weight: 700;
+}
+
+.controlsSection {
+    position: sticky;
+    top: 70px;
+    z-index: 100;
+    padding: 1.25rem 0;
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.controlsContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.searchWrapper {
+    flex: 1;
+    max-width: 450px;
+}
+
+.searchBar {
+    position: relative;
+    width: 100%;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.6rem 1rem 0.6rem 2.8rem;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    border-radius: 6px;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.searchInput:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1);
+}
+
+/* Horizontal Categories Section */
+.categoriesSection {
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.horizontalCategories {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 0.5rem 2rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) transparent;
+}
+
+.horizontalCategories::-webkit-scrollbar {
+    height: 4px;
+}
+
+.horizontalCategories::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 10px;
+}
+
+.catBtn {
+    padding: 0.75rem 1.5rem;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    white-space: nowrap;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.catBtn:hover {
+    border-color: var(--accent-color);
+    color: var(--text-primary);
+    background: rgba(197, 160, 89, 0.05);
+}
+
+.catBtn.catActive {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--bg-color);
+    box-shadow: 0 4px 12px rgba(197, 160, 89, 0.3);
+}
+
+.mainContent {
+    width: 100%;
+}
+
+/* View Toggle */
+.viewToggle {
+    display: flex;
+    gap: 0.3rem;
+    background-color: var(--input-bg);
+    padding: 0.2rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.toggleBtn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: var(--transition-smooth);
+    font-size: 0.85rem;
+}
+
+.toggleBtn.active {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+}
+
+/* Responsive Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.loader,
+.noResults {
+    text-align: center;
+    padding: 6rem 0;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 992px) {
+    .controlsSection {
+        top: 60px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .controlsContainer {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .searchWrapper {
+        width: 100%;
+    }
+}

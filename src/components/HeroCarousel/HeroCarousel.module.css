@@ -1,0 +1,124 @@
+.carousel {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    /* Reduced height from 85vh for a tighter look */
+    overflow: hidden;
+    background-color: #000;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.7);
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            rgba(15, 23, 42, 0.4) 0%,
+            rgba(15, 23, 42, 0.7) 100%);
+}
+
+.content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 900px;
+    padding: 0 2rem;
+}
+
+.tag {
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+.title {
+    font-size: 3.5rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1.2rem;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+}
+
+.ctaBtn {
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: 0 10px 20px rgba(3, 105, 161, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ctaBtn:hover {
+    transform: translateY(-3px);
+    background: var(--accent-hover);
+    box-shadow: 0 15px 30px rgba(3, 105, 161, 0.4);
+}
+
+.indicators {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    z-index: 20;
+}
+
+.dot {
+    width: 8px;
+    /* Reduced from 12px */
+    height: 8px;
+    /* Reduced from 12px */
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.dot.active {
+    background-color: var(--accent-color);
+    transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 3rem;
+    }
+
+    .carousel {
+        height: 70vh;
+    }
+}

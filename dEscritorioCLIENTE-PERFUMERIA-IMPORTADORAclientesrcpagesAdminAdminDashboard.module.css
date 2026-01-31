@@ -1,0 +1,265 @@
+
+/* Modal de Cupón */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.modal h3 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+}
+
+.formGroup {
+    margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.formGroup input,
+.formGroup select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: var(--transition-smooth);
+}
+
+.formGroup input:focus,
+.formGroup select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.modalActions button[type="button"] {
+    color: var(--text-secondary);
+    padding: 0.8rem 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.modalActions button[type="button"]:hover {
+    color: var(--text-primary);
+}
+
+.modalActions button[type="submit"] {
+    background: var(--accent-color);
+    color: var(--bg-color);
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.modalActions button[type="submit"]:hover {
+    background: var(--accent-hover);
+}
+
+/* User & Order specific styles */
+.pointsCell {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.assignBtn {
+    background: rgba(197, 160, 89, 0.1);
+    color: var(--accent-color);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.assignBtn:hover {
+    background: var(--accent-color);
+    color: var(--bg-color);
+}
+
+.idCell {
+    display: flex;
+    flex-direction: column;
+}
+
+.idText {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.dateText {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.customerInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.customerPhone {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.statusSelect {
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.statusSelect[data-status="pendiente"] { color: #ffab00; border-color: #ffab00; }
+.statusSelect[data-status="procesando"] { color: #00b8d9; border-color: #00b8d9; }
+.statusSelect[data-status="enviado"] { color: #36b37e; border-color: #36b37e; }
+.statusSelect[data-status="entregado"] { color: #36b37e; background: rgba(54, 179, 126, 0.1); }
+.statusSelect[data-status="cancelado"] { color: #ff5630; border-color: #ff5630; }
+
+.waLink {
+    color: #25d366;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.waLink:hover {
+    text-decoration: underline;
+}
+
+/* Estilos adicionales para mejorar el Modal */
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modalHeader h3 {
+    margin-bottom: 0;
+}
+
+.closeModal {
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.closeModal:hover {
+    color: var(--accent-color);
+}
+
+.userCard {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+.userAvatar {
+    width: 45px;
+    height: 45px;
+    background: var(--accent-color);
+    color: var(--bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.userData {
+    display: flex;
+    flex-direction: column;
+}
+
+.userData strong {
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.userData span {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.inputWithAction {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.actionBtn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--accent-color);
+    width: 45px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+.actionBtn:hover {
+    border-color: var(--accent-color);
+    background: rgba(197, 160, 89, 0.1);
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
