@@ -8,11 +8,12 @@ import orderApi from '../../api/order.api';
 import discountApi from '../../api/discount.api';
 import emailApi from '../../api/email.api';
 import { formatCurrency } from '../../utils/currencyFormatter';
-import { FiEdit, FiTrash2, FiPlus, FiBox, FiPackage, FiUsers, FiShoppingBag, FiAward, FiTag, FiMail, FiX, FiRefreshCw, FiSettings } from 'react-icons/fi';
+import { FiEdit, FiTrash2, FiPlus, FiBox, FiPackage, FiUsers, FiShoppingBag, FiAward, FiTag, FiMail, FiX, FiRefreshCw, FiSettings, FiPrinter } from 'react-icons/fi';
 import settingsApi from '../../api/settings.api';
 import { useCurrency } from '../../context/CurrencyContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './AdminDashboard.module.css';
+import OrderTicket from '../../components/admin/OrderTicket';
 
 const AdminDashboard = () => {
     const [products, setProducts] = useState([]);
@@ -24,6 +25,7 @@ const AdminDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('products');
     const [expandedOrder, setExpandedOrder] = useState(null);
+    const [printingOrder, setPrintingOrder] = useState(null);
 
     // UI States for User management
     const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
@@ -212,6 +214,16 @@ const AdminDashboard = () => {
         } finally {
             setSettingsLoading(false);
         }
+    };
+
+    const handlePrintTicket = (order) => {
+        setPrintingOrder(order);
+        setTimeout(() => {
+            window.print();
+            // Optional: clear printing order after print dialog closes (though event is hard to catch across browsers)
+            // For now, we keep it or clear it on a timeout? 
+            // Better to keep it to ensure it renders during print dialog.
+        }, 100);
     };
 
     return (
@@ -462,6 +474,25 @@ const AdminDashboard = () => {
                                                 </td>
                                                 <td>
                                                     <div className={styles.tableActions} onClick={(e) => e.stopPropagation()}>
+                                                        <button
+                                                            className={styles.actionBtn}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                handlePrintTicket(order);
+                                                            }}
+                                                            title="Imprimir Ticket"
+                                                            style={{
+                                                                background: '#e2e8f0',
+                                                                color: '#475569',
+                                                                border: 'none',
+                                                                padding: '6px',
+                                                                borderRadius: '4px',
+                                                                cursor: 'pointer',
+                                                                marginRight: '5px'
+                                                            }}
+                                                        >
+                                                            <FiPrinter size={16} />
+                                                        </button>
                                                         <a
                                                             href={`https://wa.me/${order.shippingData?.phone.replace(/\D/g, '')}`}
                                                             target="_blank"
@@ -806,15 +837,13 @@ const AdminDashboard = () => {
                                             </div>
                                         ))}
                                     </div>
-                                    <div className={styles.modalActions}>
-                                        <button type="button" onClick={() => setIsCouponModalOpen(false)}>Cerrar</button>
-                                    </div>
                                 </div>
                             )}
                         </motion.div>
                     </div>
                 )}
             </AnimatePresence>
+
             {/* Modal de Cupón Genérico */}
             <AnimatePresence>
                 {isGenericCouponModalOpen && (
@@ -906,7 +935,12 @@ const AdminDashboard = () => {
                     </div>
                 )}
             </AnimatePresence>
-        </div>
+
+            {/* Hidden Printable Ticket */}
+            <div style={{ display: 'none' }}>
+                <OrderTicket order={printingOrder} />
+            </div>
+        </div >
     );
 };
 

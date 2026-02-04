@@ -7,10 +7,12 @@ import authApi from '../../api/auth.api';
 import orderApi from '../../api/order.api';
 import discountApi from '../../api/discount.api';
 import emailApi from '../../api/email.api';
-import { FiPlus, FiBox, FiPackage, FiUsers, FiShoppingBag, FiMail, FiTag, FiSettings, FiX, FiRefreshCw } from 'react-icons/fi';
+import { FiPlus, FiBox, FiPackage, FiUsers, FiShoppingBag, FiMail, FiTag, FiSettings, FiX, FiRefreshCw, FiPrinter } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import styles from './AdminDashboard.module.css';
+import OrderTicket from '../../components/admin/OrderTicket';
+import TicketPreviewModal from '../../components/admin/TicketPreviewModal';
 
 const AdminLayout = () => {
     const [products, setProducts] = useState([]);
@@ -20,6 +22,7 @@ const AdminLayout = () => {
     const [subscribers, setSubscribers] = useState([]);
     const [discounts, setDiscounts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [printingOrder, setPrintingOrder] = useState(null);
 
     // UI States for User management
     const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
@@ -201,6 +204,10 @@ const AdminLayout = () => {
         setIsGenericCouponModalOpen(true);
     };
 
+    const handlePrintTicket = (order) => {
+        setPrintingOrder(order);
+    };
+
     return (
         <div className={styles.page}>
             <div className="container">
@@ -276,6 +283,7 @@ const AdminLayout = () => {
                         onUpdateStatus: handleUpdateStatus,
                         onDeleteDiscount: handleDeleteDiscount,
                         onCreateCoupon: openGenericCouponModal,
+                        onPrintTicket: handlePrintTicket,
                         refreshData: fetchData
                     }} />
                 </div>
@@ -503,6 +511,11 @@ const AdminLayout = () => {
                     </div>
                 )}
             </AnimatePresence>
+            {/* Ticket Preview Modal */}
+            <TicketPreviewModal
+                order={printingOrder}
+                onClose={() => setPrintingOrder(null)}
+            />
         </div>
     );
 };

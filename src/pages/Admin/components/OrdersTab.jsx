@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatCurrency } from '../../../utils/currencyFormatter';
+import { FiPrinter } from 'react-icons/fi';
 import styles from '../AdminDashboard.module.css';
 
 const OrdersTab = () => {
-    const { orders, loading, onUpdateStatus } = useOutletContext();
+    const { orders, loading, onUpdateStatus, onPrintTicket } = useOutletContext();
     const [expandedOrder, setExpandedOrder] = useState(null);
 
     const toggleOrder = (orderId) => {
@@ -72,6 +73,25 @@ const OrdersTab = () => {
                             </td>
                             <td>
                                 <div className={styles.tableActions} onClick={(e) => e.stopPropagation()}>
+                                    <button
+                                        className={styles.actionBtn}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onPrintTicket(order);
+                                        }}
+                                        title="Imprimir Ticket"
+                                        style={{
+                                            background: '#e2e8f0',
+                                            color: '#475569',
+                                            border: 'none',
+                                            padding: '6px',
+                                            borderRadius: '4px',
+                                            cursor: 'pointer',
+                                            marginRight: '5px'
+                                        }}
+                                    >
+                                        <FiPrinter size={16} />
+                                    </button>
                                     <a
                                         href={`https://wa.me/${order.shippingData?.phone.replace(/\D/g, '')}`}
                                         target="_blank"
