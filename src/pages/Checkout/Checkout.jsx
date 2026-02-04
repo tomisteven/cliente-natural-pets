@@ -15,7 +15,7 @@ const Checkout = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: user?.nombre || '',
-        phone: '',
+        address: '',
         email: user?.email || '',
         city: '',
         paymentMethod: 'Efectivo',
@@ -26,8 +26,8 @@ const Checkout = () => {
     const validate = () => {
         const newErrors = {};
         if (!formData.name) newErrors.name = 'El nombre es obligatorio';
-        if (!formData.phone) newErrors.phone = 'El teléfono es obligatorio';
-        if (!formData.city) newErrors.city = 'La ciudad/zona es obligatoria';
+        if (!formData.address) newErrors.address = 'La dirección es obligatoria';
+        if (!formData.city) newErrors.city = 'La localidad es obligatoria';
         if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
             newErrors.email = 'Email no válido';
         }
@@ -78,7 +78,7 @@ const Checkout = () => {
                     total: discountedTotal,
                     shippingData: {
                         name: formData.name,
-                        phone: formData.phone,
+                        address: formData.address,
                         email: formData.email,
                         city: formData.city
                     },
@@ -126,12 +126,12 @@ const Checkout = () => {
                                 {errors.name && <span className={styles.error}>{errors.name}</span>}
                             </div>
                             <div className={styles.formGroup}>
-                                <label className={styles.label}>Teléfono *</label>
+                                <label className={styles.label}>Dirección *</label>
                                 <input
-                                    type="text" name="phone" value={formData.phone} onChange={handleChange}
-                                    className={styles.input} placeholder="11 2345 6789"
+                                    type="text" name="address" value={formData.address} onChange={handleChange}
+                                    className={styles.input} placeholder="Av. Principal 123"
                                 />
-                                {errors.phone && <span className={styles.error}>{errors.phone}</span>}
+                                {errors.address && <span className={styles.error}>{errors.address}</span>}
                             </div>
                             <div className={styles.formGroup}>
                                 <label className={styles.label}>Email (Opcional)</label>
@@ -142,7 +142,7 @@ const Checkout = () => {
                                 {errors.email && <span className={styles.error}>{errors.email}</span>}
                             </div>
                             <div className={styles.formGroup}>
-                                <label className={styles.label}>Ciudad / Zona *</label>
+                                <label className={styles.label}>Localidad *</label>
                                 <input
                                     type="text" name="city" value={formData.city} onChange={handleChange}
                                     className={styles.input} placeholder="Nordelta, Tigre"
