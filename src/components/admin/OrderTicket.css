@@ -1,6 +1,6 @@
 @page {
   size: 80mm auto;
-  margin: 0mm;
+  margin: 0;
 }
 
 @media print {
@@ -16,101 +16,126 @@
   #printable-ticket {
     position: absolute;
     left: 0;
-    right: 0;
     top: 0;
-    width: 80mm;
+    width: 72mm;
+    /* Reduced from 80mm to safe printable area */
     min-height: 100%;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 11px;
-    /* Slightly smaller for better fit */
+    /* Monospace is best for alignment */
+    font-size: 13px;
+    /* Increased from 11px */
+    font-weight: 600;
+    /* Bolder for thermal printing */
     color: black;
     background: white;
     padding: 2mm;
-    margin: 0;
-    line-height: 1.2;
+    /* Small padding */
+    margin: 0 auto;
+    line-height: 1.4;
+    /* Increased line height to prevent cutting */
   }
 }
 
 .ticket-container {
-  /* No default display:none here, handled by parent .printContainer */
-  width: 80mm;
+  /* Match print styles for preview */
+  width: 74mm;
+  /* Slightly larger for screen container */
   background: white;
   padding: 10px;
   font-family: 'Courier New', Courier, monospace;
   color: black;
+  margin: 0 auto;
 }
 
 .ticket-header {
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .ticket-header .store-name {
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 14px;
+  /* Larger header */
+  font-weight: 800;
   text-transform: uppercase;
   display: block;
+  margin-bottom: 2px;
 }
 
 .ticket-separator {
-  border-top: 1px dashed black;
-  margin: 5px 0;
+  border-top: 2px dashed black;
+  /* Thicker line */
+  margin: 8px 0;
   width: 100%;
 }
 
 .ticket-info {
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  font-size: 12px;
 }
 
 .ticket-row {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2px;
 }
 
 .items-header {
   display: flex;
-  font-weight: bold;
-  margin-bottom: 2px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  border-bottom: 1px solid black;
+  padding-bottom: 2px;
+  font-size: 12px;
 }
 
 .item-row {
   display: flex;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  align-items: flex-start;
 }
 
 .col-qty {
-  width: 10%;
+  width: 12%;
   text-align: left;
+  font-weight: bold;
 }
 
 .col-desc {
   flex: 1;
   text-align: left;
-  padding-right: 2px;
+  padding-right: 4px;
+  word-break: break-word;
+  /* Ensure wrapping */
 }
 
 .col-total {
   width: 25%;
   text-align: right;
+  white-space: nowrap;
 }
 
 .totals-section {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  /* Right align totals */
-  margin-top: 5px;
+  margin-top: 8px;
 }
 
 .total-row {
-  font-size: 12px;
-  font-weight: bold;
-  margin-top: 5px;
+  font-size: 16px;
+  /* Bigger total */
+  font-weight: 900;
+  margin-top: 8px;
   text-transform: uppercase;
+  border-top: 1px solid black;
+  padding-top: 4px;
+  width: 100%;
+  text-align: right;
 }
 
 .ticket-footer {
   text-align: center;
-  margin-top: 10px;
-  font-size: 10px;
+  margin-top: 15px;
+  font-size: 11px;
+  font-weight: bold;
 }
