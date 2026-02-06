@@ -2,92 +2,59 @@
    TICKET STYLES - Optimizado para comandera 80mm
    ============================================= */
 
+/* Container que oculta el ticket en pantalla */
+.print-only-ticket {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 100mm;
+}
+
 /* Configuración de página para impresión */
 @page {
-  size: 80mm auto;
-  /* Ancho exacto de la comandera */
+  size: auto;
   margin: 0;
 }
 
-/* =============================================
-   ESTILOS DE IMPRESIÓN
-   ============================================= */
-@media print {
-
-  /* Ocultar todo excepto el ticket */
-  html,
-  body {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 80mm !important;
-  }
-
-  body * {
-    visibility: hidden;
-  }
-
-  #printable-ticket,
-  #printable-ticket * {
-    visibility: visible;
-  }
-
-  #printable-ticket {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 74mm;
-    /* 80mm - 6mm de márgenes seguros (3mm cada lado) */
-    margin: 0 3mm;
-    /* Márgenes seguros para no tocar el borde */
-    padding: 2mm 0;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 11px;
-    font-weight: 600;
-    color: #000;
-    background: #fff;
-    line-height: 1.35;
-    box-sizing: border-box;
-  }
-
-  /* Ajustes específicos para impresión */
-  .ticket-header .store-name {
-    font-size: 14px !important;
-    letter-spacing: 0.5px;
-  }
-
-  .ticket-header span {
-    font-size: 10px !important;
-  }
-
-  .ticket-info {
-    font-size: 10px !important;
-  }
-
-  .items-header,
-  .item-row {
-    font-size: 10px !important;
-  }
-
-  .col-desc {
-    font-size: 9px !important;
-    max-width: 40mm;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
-  }
-
-  .total-row {
-    font-size: 13px !important;
-  }
-
-  .ticket-footer {
-    font-size: 9px !important;
-  }
-
-  .ticket-footer p {
-    margin: 2px 0 !important;
-  }
+/* Ajustes específicos para impresión */
+.ticket-header .store-name {
+  font-size: 14px !important;
+  letter-spacing: 0.5px;
 }
+
+.ticket-header span {
+  font-size: 10px !important;
+}
+
+.ticket-info {
+  font-size: 10px !important;
+}
+
+.items-header,
+.item-row {
+  font-size: 10px !important;
+}
+
+.col-desc {
+  font-size: 9px !important;
+  max-width: 40mm;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.total-row {
+  font-size: 13px !important;
+}
+
+.ticket-footer {
+  font-size: 9px !important;
+}
+
+.ticket-footer p {
+  margin: 2px 0 !important;
+}
+
 
 /* =============================================
    ESTILOS DE PANTALLA (Preview)
