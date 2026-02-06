@@ -5,6 +5,10 @@ const orderApi = {
         const response = await api.post('/orders', orderData);
         return response.data;
     },
+    createGuestOrder: async (orderData) => {
+        const response = await api.post('/orders/guest', orderData);
+        return response.data;
+    },
     getMyOrders: async () => {
         const response = await api.get('/orders/my-orders');
         return response.data;

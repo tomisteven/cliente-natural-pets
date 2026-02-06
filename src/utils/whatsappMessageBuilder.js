@@ -1,7 +1,7 @@
 export const buildWhatsAppMessage = (formData, cart, total) => {
     const phoneNumber = "5491163846849"; // Numero de la tienda (Hardcoded o del env)
 
-    let message = `*NUEVO PEDIDO - Oud & Essence*\n\n`;
+    let message = `*NUEVO PEDIDO - Natural Pet*\n\n`;
     message += `*Cliente:* ${formData.name}\n`;
     message += `*Dirección:* ${formData.address}\n`;
     message += `*Localidad:* ${formData.city}\n`;

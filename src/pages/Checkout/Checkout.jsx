@@ -9,7 +9,7 @@ import orderApi from '../../api/order.api';
 import styles from './Checkout.module.css';
 
 const Checkout = () => {
-    const { cart, cartTotal, getItemPrice, appliedDiscount, getDiscountedTotal } = useCart();
+    const { cart, cartTotal, getItemPrice, appliedDiscount, getDiscountedTotal, hasOnlyLooseKilos, meetsMinimumPurchase, MIN_LOOSE_KILOS_PURCHASE } = useCart();
     const { user, isAuthenticated } = useAuth();
     const { convertToARS, exchangeRate } = useCurrency();
     const navigate = useNavigate();
@@ -61,38 +61,43 @@ const Checkout = () => {
         const surchargePercentage = getSurchargePercentage(formData.paymentMethod);
         const finalTotal = discountedTotal * (1 + surchargePercentage / 100);
 
-        // Si el usuario está autenticado, guardamos el pedido en el servidor
-        if (isAuthenticated) {
-            try {
-                await orderApi.create({
-                    items: cart.map(item => ({
-                        product: item._id,
-                        nombre: item.nombre || item.name,
-                        precio: getItemPrice(item),
-                        quantity: item.quantity,
-                        type: item.type
-                    })),
-                    subtotal: cartTotal,
-                    discountCode: appliedDiscount?.code,
-                    discountValue: cartTotal - discountedTotal,
-                    total: discountedTotal,
-                    shippingData: {
-                        name: formData.name,
-                        address: formData.address,
-                        email: formData.email,
-                        city: formData.city
-                    },
-                    paymentMethod: formData.paymentMethod,
-                    observations: formData.observations,
-                    surcharge: finalTotal - discountedTotal,
-                    exchangeRate: exchangeRate,
-                    subtotalARS: convertToARS(cartTotal),
-                    totalARS: convertToARS(finalTotal)
-                });
-            } catch (error) {
-                console.error('Error al guardar el pedido:', error);
-                // Continuamos con el WhatsApp de todas formas para no bloquear la venta
+        // Preparar datos del pedido
+        const orderData = {
+            items: cart.map(item => ({
+                product: item._id,
+                nombre: item.nombre || item.name,
+                precio: getItemPrice(item),
+                quantity: item.quantity,
+                type: item.type
+            })),
+            subtotal: cartTotal,
+            discountCode: appliedDiscount?.code,
+            discountValue: cartTotal - discountedTotal,
+            total: discountedTotal,
+            shippingData: {
+                name: formData.name,
+                address: formData.address,
+                email: formData.email,
+                city: formData.city
+            },
+            paymentMethod: formData.paymentMethod,
+            observations: formData.observations,
+            surcharge: finalTotal - discountedTotal,
+            exchangeRate: exchangeRate,
+            subtotalARS: convertToARS(cartTotal),
+            totalARS: convertToARS(finalTotal)
+        };
+
+        // Guardar el pedido en el servidor (autenticado o invitado)
+        try {
+            if (isAuthenticated) {
+                await orderApi.create(orderData);
+            } else {
+                await orderApi.createGuestOrder(orderData);
             }
+        } catch (error) {
+            console.error('Error al guardar el pedido:', error);
+            // Continuamos con el WhatsApp de todas formas para no bloquear la venta
         }
 
         const whatsappUrl = buildWhatsAppMessage(formData, cart, formatCurrency(convertToARS(finalTotal)));
@@ -205,10 +210,19 @@ const Checkout = () => {
                             </div>
                         </div>
 
+                        {/* Advertencia de mínimo de compra para kilos sueltos */}
+                        {hasOnlyLooseKilos() && !meetsMinimumPurchase(convertToARS(getDiscountedTotal())) && (
+                            <div className={styles.minimumWarning}>
+                                <span>⚠️ Mínimo de compra para kilos sueltos: {formatCurrency(MIN_LOOSE_KILOS_PURCHASE)}</span>
+                                <span>Te faltan: {formatCurrency(MIN_LOOSE_KILOS_PURCHASE - convertToARS(getDiscountedTotal()))}</span>
+                            </div>
+                        )}
+
                         <button
                             className="premium-btn"
                             style={{ width: '100%', marginTop: '2rem' }}
                             onClick={handleSubmit}
+                            disabled={hasOnlyLooseKilos() && !meetsMinimumPurchase(convertToARS(getDiscountedTotal()))}
                         >
                             Pedir por WhatsApp
                         </button>

@@ -3,6 +3,9 @@ import toast from 'react-hot-toast';
 
 const CartContext = createContext();
 
+// Mínimo de compra en ARS cuando el carrito contiene SOLO kilos sueltos
+const MIN_LOOSE_KILOS_PURCHASE = 14000;
+
 export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState(() => {
         const savedCart = localStorage.getItem('cart');
@@ -115,6 +118,23 @@ export const CartProvider = ({ children }) => {
     const applyDiscount = (discountData) => setAppliedDiscount(discountData);
     const removeDiscount = () => setAppliedDiscount(null);
 
+    // Verifica si el carrito contiene SOLO kilos sueltos (sin bolsas)
+    const hasOnlyLooseKilos = () => {
+        if (cart.length === 0) return false;
+        return cart.every(item => item.purchaseMode === 'kilo');
+    };
+
+    // Verifica si hay algún item de kilos sueltos en el carrito
+    const hasLooseKilos = () => {
+        return cart.some(item => item.purchaseMode === 'kilo');
+    };
+
+    // Verifica si se cumple el mínimo de compra (solo aplica cuando hay SOLO kilos sueltos)
+    const meetsMinimumPurchase = (totalInARS) => {
+        if (!hasOnlyLooseKilos()) return true; // Si hay bolsas, no hay mínimo
+        return totalInARS >= MIN_LOOSE_KILOS_PURCHASE;
+    };
+
     return (
         <CartContext.Provider value={{
             cart,
@@ -128,7 +148,11 @@ export const CartProvider = ({ children }) => {
             appliedDiscount,
             applyDiscount,
             removeDiscount,
-            getDiscountedTotal
+            getDiscountedTotal,
+            hasOnlyLooseKilos,
+            hasLooseKilos,
+            meetsMinimumPurchase,
+            MIN_LOOSE_KILOS_PURCHASE
         }}>
             {children}
         </CartContext.Provider>
