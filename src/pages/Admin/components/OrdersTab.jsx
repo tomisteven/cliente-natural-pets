@@ -93,7 +93,7 @@ const OrdersTab = () => {
                                         <FiPrinter size={16} />
                                     </button>
                                     <a
-                                        href={`https://wa.me/${order.shippingData?.phone.replace(/\D/g, '')}`}
+                                        href={`https://wa.me/${order.shippingData?.phone?.replace(/\D/g, '') || ''}`}
                                         target="_blank"
                                         className={styles.waLink}
                                     >
