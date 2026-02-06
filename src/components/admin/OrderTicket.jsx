@@ -16,6 +16,11 @@ const OrderTicket = ({ order }) => {
 
             <div className="ticket-separator"></div>
 
+            {/* Código de pedido destacado */}
+            <div className="ticket-order-id">
+                PEDIDO #{order._id.slice(-6).toUpperCase()}
+            </div>
+
             <div className="ticket-info">
                 <div className="ticket-row">
                     <span>FECHA: {new Date(order.createdAt).toLocaleDateString()}</span>
@@ -26,10 +31,33 @@ const OrderTicket = ({ order }) => {
                 <div className="ticket-row">
                     <span>CLIENTE: {order.shippingData?.name}</span>
                 </div>
+                {/* Dirección del cliente */}
+                {order.shippingData?.address && (
+                    <div className="ticket-row">
+                        <span>DIRECCIÓN: {order.shippingData.address}</span>
+                    </div>
+                )}
+                {/* Localidad */}
+                {order.shippingData?.city && (
+                    <div className="ticket-row">
+                        <span>LOCALIDAD: {order.shippingData.city}</span>
+                    </div>
+                )}
                 <div className="ticket-row">
                     <span>MÉTODO: {order.paymentMethod?.split(' (')[0]}</span>
                 </div>
             </div>
+
+            {/* Notas/Comentarios del pedido */}
+            {order.observations && (
+                <>
+                    <div className="ticket-separator"></div>
+                    <div className="ticket-notes">
+                        <span className="notes-label">NOTAS:</span>
+                        <span className="notes-content">{order.observations}</span>
+                    </div>
+                </>
+            )}
 
             <div className="ticket-separator"></div>
 
