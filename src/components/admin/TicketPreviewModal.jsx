@@ -18,7 +18,7 @@ const TicketPreviewModal = ({ order, onClose }) => {
                 <title>Ticket #${order._id.slice(-6).toUpperCase()}</title>
                 <style>
                     @page { 
-                        size: 80mm auto; 
+                        size: 90mm auto; 
                         margin: 0 !important; 
                     }
                     @media print {
@@ -28,7 +28,7 @@ const TicketPreviewModal = ({ order, onClose }) => {
                             width: 80mm !important;
                         }
                         body {
-                            padding-left: 20px !important;
+                            padding-left: 10px !important;
                             margin-top: 0 !important;
                         }
                     }
@@ -39,36 +39,36 @@ const TicketPreviewModal = ({ order, onClose }) => {
                     }
                     body {
                         margin: 0;
-                        padding: 1mm 2mm 1mm 20px;
+                        padding: 1mm 2mm 1mm 10px;
                         width: 80mm;
                         max-width: 80mm;
                         font-family: 'Courier New', Courier, monospace;
-                        font-size: 10px;
+                        font-size: 14px;
                         font-weight: 600;
                         color: #000;
                         background: #fff;
                         line-height: 1.25;
                     }
-                    .header { text-align: center; margin-bottom: 6px; }
-                    .store-name { font-size: 13px; font-weight: 800; display: block; margin-bottom: 3px; }
-                    .header span { font-size: 9px; }
-                    .separator { border-top: 1px dashed #000; margin: 4px 0; }
-                    .order-id { text-align: center; font-size: 11px; font-weight: 900; background: #000; color: #fff; padding: 2px 4px; margin-bottom: 4px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-                    .info { margin-bottom: 4px; font-size: 9px; }
-                    .row { margin-bottom: 1px; }
-                    .notes { font-size: 9px; margin-bottom: 3px; }
+                    .header { text-align: center; margin-bottom: 8px; }
+                    .store-name { font-size: 18px; font-weight: 800; display: block; margin-bottom: 4px; }
+                    .header span { font-size: 14px; }
+                    .separator { border-top: 1px dashed #000; margin: 6px 0; }
+                    .order-id { text-align: center; font-size: 17px; font-weight: 900; background: #000; color: #fff; padding: 3px 5px; margin-bottom: 6px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                    .info { margin-bottom: 6px; font-size: 16px; }
+                    .row { margin-bottom: 2px; }
+                    .notes { font-size: 14px; margin-bottom: 4px; }
                     .notes-label { font-weight: bold; }
                     .notes-content { font-style: italic; }
-                    .section-title { text-align: center; margin-bottom: 3px; font-weight: bold; font-size: 9px; }
-                    .items-header { display: flex; font-weight: 800; border-bottom: 1px solid #000; padding-bottom: 1px; margin-bottom: 3px; font-size: 9px; }
-                    .item-row { display: flex; margin-bottom: 2px; font-size: 9px; }
+                    .section-title { text-align: center; margin-bottom: 4px; font-weight: bold; font-size: 15px; }
+                    .items-header { display: flex; font-weight: 800; border-bottom: 1px solid #000; padding-bottom: 2px; margin-bottom: 4px; font-size: 15px; }
+                    .item-row { display: flex; margin-bottom: 3px; font-size: 15px; }
                     .col-qty { width: 12%; font-weight: bold; }
-                    .col-desc { flex: 1; font-size: 8px; word-break: break-word; padding-right: 2px; }
-                    .col-total { width: 25%; text-align: right; font-size: 9px; }
-                    .totals { text-align: right; margin-top: 4px; font-size: 9px; }
-                    .total-row { font-size: 12px; font-weight: 900; border-top: 1px solid #000; padding-top: 3px; margin-top: 4px; }
-                    .footer { text-align: center; margin-top: 8px; font-size: 8px; font-weight: bold; }
-                    .footer p { margin: 1px 0; }
+                    .col-desc { flex: 1; font-size: 15px; word-break: break-word; padding-right: 2px; }
+                    .col-total { width: 25%; text-align: right; font-size: 17px; }
+                    .totals { text-align: right; margin-top: 6px; font-size: 17px; }
+                    .total-row { font-size: 17px; font-weight: 900; border-top: 1px solid #000; padding-top: 4px; margin-top: 6px; }
+                    .footer { text-align: center; margin-top: 10px; font-size: 12px; font-weight: bold; }
+                    .footer p { margin: 2px 0; }
                 </style>
             </head>
             <body>
