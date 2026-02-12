@@ -18,25 +18,25 @@
 
 /* Ajustes específicos para impresión */
 .ticket-header .store-name {
-  font-size: 14px !important;
+  font-size: 18px !important;
   letter-spacing: 0.5px;
 }
 
 .ticket-header span {
-  font-size: 10px !important;
+  font-size: 14px !important;
 }
 
 .ticket-info {
-  font-size: 10px !important;
+  font-size: 14px !important;
 }
 
 .items-header,
 .item-row {
-  font-size: 10px !important;
+  font-size: 14px !important;
 }
 
 .col-desc {
-  font-size: 9px !important;
+  font-size: 13px !important;
   max-width: 40mm;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -44,11 +44,11 @@
 }
 
 .total-row {
-  font-size: 13px !important;
+  font-size: 17px !important;
 }
 
 .ticket-footer {
-  font-size: 9px !important;
+  font-size: 13px !important;
 }
 
 .ticket-footer p {
@@ -80,7 +80,7 @@
 }
 
 .ticket-header .store-name {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 800;
   text-transform: uppercase;
   display: block;
@@ -89,7 +89,7 @@
 }
 
 .ticket-header span {
-  font-size: 10px;
+  font-size: 14px;
   display: inline;
   line-height: 1.4;
 }
@@ -105,7 +105,7 @@
 /* Información del pedido */
 .ticket-info {
   margin-bottom: 6px;
-  font-size: 10px;
+  font-size: 14px;
   padding: 0 1mm;
 }
 
@@ -128,7 +128,7 @@
   margin-bottom: 4px;
   border-bottom: 1px solid #000;
   padding-bottom: 2px;
-  font-size: 10px;
+  font-size: 14px;
   padding: 0 1mm 2px 1mm;
 }
 
@@ -141,7 +141,7 @@
   display: flex;
   margin-bottom: 3px;
   align-items: flex-start;
-  font-size: 10px;
+  font-size: 14px;
 }
 
 /* Columnas de productos */
@@ -161,7 +161,7 @@
   overflow-wrap: break-word;
   hyphens: auto;
   min-width: 0;
-  font-size: 9px;
+  font-size: 13px;
   line-height: 1.3;
 }
 
@@ -181,11 +181,11 @@
   align-items: flex-end;
   margin-top: 6px;
   padding: 0 1mm;
-  font-size: 10px;
+  font-size: 14px;
 }
 
 .total-row {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 900;
   margin-top: 6px;
   text-transform: uppercase;
@@ -199,7 +199,7 @@
 .ticket-footer {
   text-align: center;
   margin-top: 10px;
-  font-size: 9px;
+  font-size: 13px;
   font-weight: bold;
   padding: 0 2mm;
 }
@@ -212,7 +212,7 @@
 /* Código de pedido destacado */
 .ticket-order-id {
   text-align: center;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 900;
   background: #000;
   color: #fff;
@@ -225,7 +225,7 @@
 .ticket-notes {
   padding: 0 1mm;
   margin-bottom: 4px;
-  font-size: 10px;
+  font-size: 14px;
 }
 
 .ticket-notes .notes-label {
