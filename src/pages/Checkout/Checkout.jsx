@@ -63,13 +63,23 @@ const Checkout = () => {
 
         // Preparar datos del pedido
         const orderData = {
-            items: cart.map(item => ({
-                product: item._id,
-                nombre: item.nombre || item.name,
-                precio: getItemPrice(item),
-                quantity: item.quantity,
-                type: item.type
-            })),
+            items: cart.map(item => {
+                const baseName = item.nombre || item.name;
+                const modeLabel = item.purchaseMode === 'kilo'
+                    ? ` — ${item.extraKilos}kg sueltos`
+                    : ' — Bolsa';
+                // Solo agregar la etiqueta si es un producto (no combo)
+                const nombre = item.type === 'combo' ? baseName : `${baseName}${modeLabel}`;
+                return {
+                    product: item._id,
+                    nombre,
+                    precio: getItemPrice(item),
+                    quantity: item.quantity,
+                    type: item.type,
+                    purchaseMode: item.purchaseMode || 'bag',
+                    extraKilos: item.extraKilos || 0
+                };
+            }),
             subtotal: cartTotal,
             discountCode: appliedDiscount?.code,
             discountValue: cartTotal - discountedTotal,

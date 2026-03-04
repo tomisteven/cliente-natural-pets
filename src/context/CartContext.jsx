@@ -80,26 +80,13 @@ export const CartProvider = ({ children }) => {
         if (item.type === 'combo') return item.finalPrice;
 
         if (item.purchaseMode === 'kilo') {
-            // Price per kilo = List Price / bag weight
+            // Precio por kilo = precioLista / kilos de la bolsa
             const pricePerKilo = item.precioLista / (item.kilos || 1);
-            return pricePerKilo * item.extraKilos; // extraKilos acts as the quantity of kilos here
+            return pricePerKilo * item.extraKilos;
         }
 
-        // For bags
-        let baseBagPrice = item.precio;
-        if (item.quantity >= 10 && item.precioMayor > 0) {
-            baseBagPrice = item.precioMayor;
-        } else if (item.precioMenor > 0) {
-            baseBagPrice = item.precioMenor;
-        }
-
-        // Add extra kilos price if applicable
-        if (item.extraKilos > 0) {
-            const pricePerKilo = item.precioLista / (item.kilos || 1);
-            return baseBagPrice + (pricePerKilo * item.extraKilos);
-        }
-
-        return baseBagPrice;
+        // Para bolsas: siempre usa precioMenor
+        return item.precioMenor > 0 ? item.precioMenor : item.precio;
     };
 
     const cartTotal = cart.reduce((total, item) => total + (getItemPrice(item) * item.quantity), 0);

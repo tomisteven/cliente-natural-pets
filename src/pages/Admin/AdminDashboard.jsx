@@ -27,6 +27,12 @@ const AdminDashboard = () => {
     const [expandedOrder, setExpandedOrder] = useState(null);
     const [printingOrder, setPrintingOrder] = useState(null);
 
+    // Paginación de productos en Admin
+    const [adminProductPage, setAdminProductPage] = useState(1);
+    const [adminTotalPages, setAdminTotalPages] = useState(1);
+    const [adminTotalResults, setAdminTotalResults] = useState(0);
+    const ADMIN_PRODUCT_LIMIT = 50;
+
     // UI States for User management
     const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
@@ -43,12 +49,23 @@ const AdminDashboard = () => {
 
     const { isAdmin: authIsAdmin, loading: authLoading } = useAuth();
 
+    const fetchProducts = async (page = 1) => {
+        try {
+            const data = await getProducts({ limit: ADMIN_PRODUCT_LIMIT, page, isAdmin: true });
+            setProducts(data.products || []);
+            setAdminTotalPages(data.totalPages || 1);
+            setAdminTotalResults(data.totalResults || 0);
+        } catch (error) {
+            console.warn('Error fetching products:', error);
+        }
+    };
+
     const fetchData = async () => {
         if (!authIsAdmin || authLoading) return;
         setLoading(true);
         try {
             const results = await Promise.allSettled([
-                getProducts({ limit: 100, isAdmin: true }),
+                fetchProducts(adminProductPage),
                 getCombos(),
                 authApi.getUsers(),
                 orderApi.getAll(),
@@ -56,15 +73,12 @@ const AdminDashboard = () => {
                 discountApi.getAll()
             ]);
 
-            // Assign results only if they were fulfilled
-            if (results[0].status === 'fulfilled') setProducts(results[0].value.products || []);
             if (results[1].status === 'fulfilled') setCombos(results[1].value || []);
             if (results[2].status === 'fulfilled') setUsers(results[2].value.data || []);
             if (results[3].status === 'fulfilled') setOrders(results[3].value.data || []);
             if (results[4].status === 'fulfilled') setSubscribers(results[4].value.data || []);
             if (results[5].status === 'fulfilled') setDiscounts(results[5].value.data || []);
 
-            // Log errors for debugging
             results.forEach((res, i) => {
                 if (res.status === 'rejected') {
                     console.warn(`Admin Fetch Error [${i}]:`, res.reason);
@@ -82,6 +96,12 @@ const AdminDashboard = () => {
         fetchData();
         setLocalPercentage(suggestedPricePercentage);
     }, [authIsAdmin, authLoading, suggestedPricePercentage]);
+
+    // Cuando cambia la página de productos en admin
+    useEffect(() => {
+        if (!authIsAdmin) return;
+        fetchProducts(adminProductPage);
+    }, [adminProductPage]);
 
     const handleDeleteProduct = async (id) => {
         if (window.confirm('¿Estás seguro de eliminar este producto?')) {
@@ -358,7 +378,7 @@ const AdminDashboard = () => {
                         className={`${styles.tab} ${activeTab === 'products' ? styles.activeTab : ''}`}
                         onClick={() => setActiveTab('products')}
                     >
-                        <FiBox /> Productos ({products.length})
+                        <FiBox /> Productos ({adminTotalResults || products.length})
                     </button>
                     <button
                         className={`${styles.tab} ${activeTab === 'combos' ? styles.activeTab : ''}`}
@@ -403,55 +423,100 @@ const AdminDashboard = () => {
                 ) : (
                     <div className={styles.tableContainer}>
                         {activeTab === 'products' && (
-                            <table className={styles.table}>
-                                <thead>
-                                    <tr>
-                                        <th>Producto (SKU)</th>
-                                        <th>Categoría</th>
-                                        <th>P. Menor</th>
-                                        <th>P. Mayor</th>
-                                        <th>P. Lista</th>
-                                        <th>Stock</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {products.map(product => (
-                                        <tr key={product._id}>
-                                            <td>
-                                                <div className={styles.productInfo}>
-                                                    <img src={product.imagenes?.[0] || ''} alt="" />
-                                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                        <span>{product.nombre}</span>
-                                                        <small style={{ color: '#64748b' }}>#{product.sku}</small>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>{product.categoria}</td>
-                                            <td>{formatCurrency(product.precioMenor)}</td>
-                                            <td>{formatCurrency(product.precioMayor)}</td>
-                                            <td>{formatCurrency(product.precioLista)}</td>
-                                            <td>{product.stock}</td>
-                                            <td>
-                                                <span className={product.isActive ? styles.activeStatus : styles.inactiveStatus}>
-                                                    {product.isActive ? 'Activo' : 'Inactivo'}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <div className={styles.tableActions}>
-                                                    <Link to={`/admin/editar-producto/${product.slug}`} className={styles.editBtn}>
-                                                        <FiEdit />
-                                                    </Link>
-                                                    <button onClick={() => handleDeleteProduct(product._id)} className={styles.deleteBtn}>
-                                                        <FiTrash2 />
-                                                    </button>
-                                                </div>
-                                            </td>
+                            <>
+                                <table className={styles.table}>
+                                    <thead>
+                                        <tr>
+                                            <th>Producto (SKU)</th>
+                                            <th>Categoría</th>
+                                            <th>P. Menor</th>
+                                            <th>P. Mayor</th>
+                                            <th>P. Lista</th>
+                                            <th>Stock</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {products.map(product => (
+                                            <tr key={product._id}>
+                                                <td>
+                                                    <div className={styles.productInfo}>
+                                                        <img src={product.imagenes?.[0] || ''} alt="" />
+                                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                            <span>{product.nombre}</span>
+                                                            <small style={{ color: '#64748b' }}>#{product.sku}</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{product.categoria}</td>
+                                                <td>{formatCurrency(product.precioMenor)}</td>
+                                                <td>{formatCurrency(product.precioMayor)}</td>
+                                                <td>{formatCurrency(product.precioLista)}</td>
+                                                <td>{product.stock}</td>
+                                                <td>
+                                                    <span className={product.isActive ? styles.activeStatus : styles.inactiveStatus}>
+                                                        {product.isActive ? 'Activo' : 'Inactivo'}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div className={styles.tableActions}>
+                                                        <Link to={`/admin/editar-producto/${product.slug}`} className={styles.editBtn}>
+                                                            <FiEdit />
+                                                        </Link>
+                                                        <button onClick={() => handleDeleteProduct(product._id)} className={styles.deleteBtn}>
+                                                            <FiTrash2 />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+
+                                {/* Controles de paginación de productos */}
+                                {adminTotalPages > 1 && (
+                                    <div className={styles.pagination}>
+                                        <button
+                                            className={styles.pageBtn}
+                                            onClick={() => setAdminProductPage(p => Math.max(1, p - 1))}
+                                            disabled={adminProductPage === 1}
+                                        >
+                                            ← Anterior
+                                        </button>
+                                        <div className={styles.pageNumbers}>
+                                            {Array.from({ length: adminTotalPages }, (_, i) => i + 1)
+                                                .filter(p => p === 1 || p === adminTotalPages || Math.abs(p - adminProductPage) <= 2)
+                                                .reduce((acc, p, idx, arr) => {
+                                                    if (idx > 0 && p - arr[idx - 1] > 1) acc.push('...');
+                                                    acc.push(p);
+                                                    return acc;
+                                                }, [])
+                                                .map((p, idx) =>
+                                                    p === '...' ? (
+                                                        <span key={`ellipsis-${idx}`} className={styles.ellipsis}>…</span>
+                                                    ) : (
+                                                        <button
+                                                            key={p}
+                                                            className={`${styles.pageBtn} ${adminProductPage === p ? styles.activePage : ''}`}
+                                                            onClick={() => setAdminProductPage(p)}
+                                                        >
+                                                            {p}
+                                                        </button>
+                                                    )
+                                                )
+                                            }
+                                        </div>
+                                        <button
+                                            className={styles.pageBtn}
+                                            onClick={() => setAdminProductPage(p => Math.min(adminTotalPages, p + 1))}
+                                            disabled={adminProductPage === adminTotalPages}
+                                        >
+                                            Siguiente →
+                                        </button>
+                                    </div>
+                                )}
+                            </>
                         )}
 
                         {activeTab === 'combos' && (

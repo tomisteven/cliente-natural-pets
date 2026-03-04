@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { getProducts, deleteProduct } from '../../api/product.api';
 import { getCombos, deleteCombo } from '../../api/combo.api';
@@ -24,6 +24,26 @@ const AdminLayout = () => {
     const [loading, setLoading] = useState(true);
     const [printingOrder, setPrintingOrder] = useState(null);
 
+    // Paginación de productos — persiste en URL
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [adminProductPage, setAdminProductPage] = useState(
+        Math.max(1, Number(searchParams.get('page')) || 1)
+    );
+    const [adminTotalPages, setAdminTotalPages] = useState(1);
+    const [adminTotalResults, setAdminTotalResults] = useState(0);
+    const ADMIN_PRODUCT_LIMIT = 50;
+
+    // Cambia página, actualiza URL y sube el scroll
+    const handlePageChange = (newPage) => {
+        setAdminProductPage(newPage);
+        setSearchParams(prev => {
+            const next = new URLSearchParams(prev);
+            next.set('page', newPage);
+            return next;
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     // UI States for User management
     const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
@@ -38,12 +58,23 @@ const AdminLayout = () => {
 
     const { isAdmin: authIsAdmin, loading: authLoading } = useAuth();
 
+    const fetchProducts = async (page = 1) => {
+        try {
+            const data = await getProducts({ limit: ADMIN_PRODUCT_LIMIT, page, isAdmin: true });
+            setProducts(data.products || []);
+            setAdminTotalPages(data.totalPages || 1);
+            setAdminTotalResults(data.totalResults || 0);
+        } catch (error) {
+            console.warn('Error fetching products (admin):', error);
+        }
+    };
+
     const fetchData = async () => {
         if (!authIsAdmin || authLoading) return;
         setLoading(true);
         try {
             const results = await Promise.allSettled([
-                getProducts({ limit: 100, isAdmin: true }),
+                fetchProducts(adminProductPage),
                 getCombos(),
                 authApi.getUsers(),
                 orderApi.getAll(),
@@ -51,7 +82,6 @@ const AdminLayout = () => {
                 discountApi.getAll()
             ]);
 
-            if (results[0].status === 'fulfilled') setProducts(results[0].value.products || []);
             if (results[1].status === 'fulfilled') setCombos(results[1].value || []);
             if (results[2].status === 'fulfilled') setUsers(results[2].value.data || []);
             if (results[3].status === 'fulfilled') setOrders(results[3].value.data || []);
@@ -74,6 +104,12 @@ const AdminLayout = () => {
     useEffect(() => {
         fetchData();
     }, [authIsAdmin, authLoading]);
+
+    // Cuando cambia la página, recargar solo productos
+    useEffect(() => {
+        if (!authIsAdmin) return;
+        fetchProducts(adminProductPage);
+    }, [adminProductPage]);
 
     // Handler functions
     const handleDeleteProduct = async (id) => {
@@ -228,7 +264,7 @@ const AdminLayout = () => {
                         to="/admin/productos"
                         className={({ isActive }) => `${styles.tab} ${isActive ? styles.activeTab : ''}`}
                     >
-                        <FiBox /> Productos ({products.length})
+                        <FiBox /> Productos ({adminTotalResults || products.length})
                     </NavLink>
                     <NavLink
                         to="/admin/combos"
@@ -284,7 +320,12 @@ const AdminLayout = () => {
                         onDeleteDiscount: handleDeleteDiscount,
                         onCreateCoupon: openGenericCouponModal,
                         onPrintTicket: handlePrintTicket,
-                        refreshData: fetchData
+                        refreshData: fetchData,
+                        // Paginación de productos
+                        adminProductPage,
+                        adminTotalPages,
+                        adminTotalResults,
+                        setAdminProductPage: handlePageChange
                     }} />
                 </div>
             </div>

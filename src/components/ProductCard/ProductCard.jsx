@@ -84,27 +84,18 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
 
                 <div className={styles.priceContainer}>
                     <div className={styles.prices}>
-                        {(product.precioMenor > 0 && purchaseMode === 'bag') && (
+                        {purchaseMode === 'bag' ? (
                             <div className={styles.priceRow}>
-                                <span className={styles.priceLabel}>X MENOR:</span>
-                                <span className={styles.price}>{formatCurrency(product.precioMenor)}</span>
-                            </div>
-                        )}
-                        {(product.precioMayor > 0 && purchaseMode === 'bag') && (
-                            <div className={styles.priceRow}>
-                                <span className={styles.priceLabel}>X MAYOR:</span>
-                                <span className={styles.price} style={{ color: 'var(--accent-color)' }}>{formatCurrency(product.precioMayor)}</span>
-                            </div>
-                        )}
-                        {product.precioLista > 0 && (
-                            <div className={styles.priceRow}>
-                                <span className={styles.priceLabel}>
-                                    {purchaseMode === 'kilo' ? '$ X KILO:' : 'LISTA:'}
+                                <span className={styles.priceLabel}>PRECIO:</span>
+                                <span className={styles.price}>
+                                    {formatCurrency(product.precioMenor > 0 ? product.precioMenor : product.precio)}
                                 </span>
-                                <span className={styles.price} style={purchaseMode === 'kilo' ? { fontSize: '1.2rem' } : { fontSize: '0.9rem', opacity: 0.8 }}>
-                                    {purchaseMode === 'kilo'
-                                        ? formatCurrency(Math.round(product.precioLista / (product.kilos || 1)))
-                                        : formatCurrency(product.precioLista)}
+                            </div>
+                        ) : (
+                            <div className={styles.priceRow}>
+                                <span className={styles.priceLabel}>$ X KILO:</span>
+                                <span className={styles.price} style={{ fontSize: '1.2rem' }}>
+                                    {formatCurrency(Math.round(product.precioLista / (product.kilos || 1)))}
                                 </span>
                             </div>
                         )}
