@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+const IS_DEV = import.meta.env.DEV; // Vite inyecta esta variable (true en `npm run dev`, false en `npm run build`)
+
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'https://servidor-natural-pet.vercel.app/api',
+    baseURL: IS_DEV 
+        ? 'http://localhost:5000/api' 
+        : 'https://servidor-natural-pet.vercel.app/api',
     headers: {
         'Content-Type': 'application/json',
     },

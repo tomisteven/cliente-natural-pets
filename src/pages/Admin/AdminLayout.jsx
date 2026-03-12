@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, Outlet, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { getProducts, deleteProduct } from '../../api/product.api';
+import { getProducts, deleteProduct, updateProductsCategory } from '../../api/product.api';
 import { getCombos, deleteCombo } from '../../api/combo.api';
 import authApi from '../../api/auth.api';
+import { getCategories } from '../../api/category.api';
 import orderApi from '../../api/order.api';
 import discountApi from '../../api/discount.api';
 import emailApi from '../../api/email.api';
@@ -21,6 +22,7 @@ const AdminLayout = () => {
     const [orders, setOrders] = useState([]);
     const [subscribers, setSubscribers] = useState([]);
     const [discounts, setDiscounts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [printingOrder, setPrintingOrder] = useState(null);
 
@@ -79,7 +81,8 @@ const AdminLayout = () => {
                 authApi.getUsers(),
                 orderApi.getAll(),
                 emailApi.getAll(),
-                discountApi.getAll()
+                discountApi.getAll(),
+                getCategories()
             ]);
 
             if (results[1].status === 'fulfilled') setCombos(results[1].value || []);
@@ -87,6 +90,7 @@ const AdminLayout = () => {
             if (results[3].status === 'fulfilled') setOrders(results[3].value.data || []);
             if (results[4].status === 'fulfilled') setSubscribers(results[4].value.data || []);
             if (results[5].status === 'fulfilled') setDiscounts(results[5].value.data || []);
+            if (results[6].status === 'fulfilled') setCategories(results[6].value || []);
 
             results.forEach((res, i) => {
                 if (res.status === 'rejected') {
@@ -133,6 +137,16 @@ const AdminLayout = () => {
             } catch (error) {
                 toast.error('Error al eliminar combo');
             }
+        }
+    };
+
+    const handleBulkCategoryUpdate = async (productIds, category) => {
+        try {
+            const { modifiedCount } = await updateProductsCategory(productIds, category);
+            toast.success(`${modifiedCount} productos actualizados`);
+            fetchProducts(adminProductPage);
+        } catch (error) {
+            toast.error('Error al actualizar las categorías');
         }
     };
 
@@ -312,8 +326,10 @@ const AdminLayout = () => {
                         orders,
                         subscribers,
                         discounts,
+                        categories,
                         loading,
                         onDeleteProduct: handleDeleteProduct,
+                        onBulkCategoryUpdate: handleBulkCategoryUpdate,
                         onDeleteCombo: handleDeleteCombo,
                         onAssignCoupon: openAssignCouponModal,
                         onUpdateStatus: handleUpdateStatus,

@@ -25,6 +25,11 @@ export const deleteProduct = async (id) => {
     return response.data;
 };
 
+export const updateProductsCategory = async (productIds, category) => {
+    const response = await api.put('/products/bulk/category', { productIds, category });
+    return response.data;
+};
+
 export const toggleProductStatus = async (id) => {
     const response = await api.patch(`/products/${id}/status`);
     return response.data;
