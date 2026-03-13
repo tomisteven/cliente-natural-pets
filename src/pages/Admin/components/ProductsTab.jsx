@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
-import { FiEdit, FiTrash2, FiCheckSquare, FiSquare } from 'react-icons/fi';
+import { FiEdit, FiTrash2, FiCheckSquare, FiSquare, FiSearch, FiX } from 'react-icons/fi';
 import { formatCurrency } from '../../../utils/currencyFormatter';
 import styles from '../AdminDashboard.module.css';
 
@@ -14,12 +14,52 @@ const ProductsTab = () => {
         adminProductPage,
         adminTotalPages,
         adminTotalResults,
-        setAdminProductPage
+        setAdminProductPage,
+        adminSearch,
+        onSearchSubmit
     } = useOutletContext();
 
     const [selectedProductIds, setSelectedProductIds] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [isUpdating, setIsUpdating] = useState(false);
+    const [searchInput, setSearchInput] = useState(adminSearch || '');
+    const searchTimeoutRef = useRef(null);
+
+    // Update search input when adminSearch changes from outside (e.g. initial load)
+    useEffect(() => {
+        setSearchInput(adminSearch || '');
+    }, [adminSearch]);
+
+    const handleSearchChange = (e) => {
+        const newValue = e.target.value;
+        setSearchInput(newValue);
+        
+        // Debounce search to avoid spamming the API
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+        
+        searchTimeoutRef.current = setTimeout(() => {
+            onSearchSubmit(newValue);
+        }, 300); // 300ms delay
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        // Clear timeout if form is submitted manually
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+        onSearchSubmit(searchInput);
+    };
+
+    const handleClearSearch = () => {
+        setSearchInput('');
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+        onSearchSubmit('');
+    };
 
     if (loading) {
         return <div className={styles.loader}>Cargando productos...</div>;
@@ -53,6 +93,33 @@ const ProductsTab = () => {
 
     return (
         <>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                <form onSubmit={handleSearch} style={{ display: 'flex', gap: '10px', flex: 1, maxWidth: '400px' }}>
+                    <div style={{ position: 'relative', flex: 1 }}>
+                        <input
+                            type="text"
+                            placeholder="Buscar producto por nombre..."
+                            value={searchInput}
+                            onChange={handleSearchChange}
+                            style={{ width: '100%', padding: '10px 35px 10px 15px', borderRadius: '8px', border: '1px solid var(--border-color)', fontSize: '0.95rem' }}
+                        />
+                        {searchInput && (
+                            <button 
+                                type="button" 
+                                onClick={handleClearSearch}
+                                style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}
+                                title="Limpiar"
+                            >
+                                <FiX />
+                            </button>
+                        )}
+                    </div>
+                    <button type="submit" className="premium-btn" style={{ padding: '0 20px' }} title="Buscar">
+                        <FiSearch />
+                    </button>
+                </form>
+            </div>
+
             {selectedProductIds.length > 0 && (
                 <div style={{
                     display: 'flex', 

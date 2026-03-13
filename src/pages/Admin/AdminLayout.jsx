@@ -31,6 +31,7 @@ const AdminLayout = () => {
     const [adminProductPage, setAdminProductPage] = useState(
         Math.max(1, Number(searchParams.get('page')) || 1)
     );
+    const [adminSearch, setAdminSearch] = useState(searchParams.get('search') || '');
     const [adminTotalPages, setAdminTotalPages] = useState(1);
     const [adminTotalResults, setAdminTotalResults] = useState(0);
     const ADMIN_PRODUCT_LIMIT = 50;
@@ -41,9 +42,26 @@ const AdminLayout = () => {
         setSearchParams(prev => {
             const next = new URLSearchParams(prev);
             next.set('page', newPage);
+            // keep search param if it exists
             return next;
         });
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handleSearchSubmit = (searchTerm) => {
+        setAdminSearch(searchTerm);
+        setAdminProductPage(1);
+        setSearchParams(prev => {
+            const next = new URLSearchParams(prev);
+            next.set('page', 1);
+            if (searchTerm) {
+                next.set('search', searchTerm);
+            } else {
+                next.delete('search');
+            }
+            return next;
+        });
+        fetchProducts(1, searchTerm);
     };
 
     // UI States for User management
@@ -60,9 +78,9 @@ const AdminLayout = () => {
 
     const { isAdmin: authIsAdmin, loading: authLoading } = useAuth();
 
-    const fetchProducts = async (page = 1) => {
+    const fetchProducts = async (page = 1, search = adminSearch) => {
         try {
-            const data = await getProducts({ limit: ADMIN_PRODUCT_LIMIT, page, isAdmin: true });
+            const data = await getProducts({ limit: ADMIN_PRODUCT_LIMIT, page, search, isAdmin: true });
             setProducts(data.products || []);
             setAdminTotalPages(data.totalPages || 1);
             setAdminTotalResults(data.totalResults || 0);
@@ -341,7 +359,10 @@ const AdminLayout = () => {
                         adminProductPage,
                         adminTotalPages,
                         adminTotalResults,
-                        setAdminProductPage: handlePageChange
+                        setAdminProductPage: handlePageChange,
+                        // Búsqueda
+                        adminSearch,
+                        onSearchSubmit: handleSearchSubmit
                     }} />
                 </div>
             </div>
