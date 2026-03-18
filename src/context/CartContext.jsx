@@ -80,8 +80,8 @@ export const CartProvider = ({ children }) => {
         if (item.type === 'combo') return item.finalPrice;
 
         if (item.purchaseMode === 'kilo') {
-            // Precio por kilo = precioLista / kilos de la bolsa
-            const pricePerKilo = item.precioLista / (item.kilos || 1);
+            // Si el producto tiene precioXKilo definido, usarlo. Si no, calcularlo.
+            const pricePerKilo = item.precioXKilo || (item.precioLista / (item.kilos || 1));
             return pricePerKilo * item.extraKilos;
         }
 

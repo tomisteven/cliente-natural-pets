@@ -28,7 +28,9 @@ const ProductForm = () => {
         categoria: 'General',
         imagenes: [''],
         isExclusive: false,
-        precioExclusivo: ''
+        precioExclusivo: '',
+        precioXKilo: '',
+        esAlimento: true
     });
 
     const [categories, setCategories] = useState([]);
@@ -54,7 +56,9 @@ const ProductForm = () => {
                         precioCard: data.precioCard?.toString() || '',
                         imagenes: data.imagenes.length > 0 ? data.imagenes : [''],
                         isExclusive: data.isExclusive || false,
-                        precioExclusivo: data.precioExclusivo?.toString() || ''
+                        precioExclusivo: data.precioExclusivo?.toString() || '',
+                        precioXKilo: data.precioXKilo?.toString() || '',
+                        esAlimento: data.esAlimento !== undefined ? data.esAlimento : true
                     });
                 } else if (cats.length > 0) {
                     setFormData(prev => ({ ...prev, categoria: cats[0].name }));
@@ -117,7 +121,9 @@ const ProductForm = () => {
                 stock: Number(formData.stock) || 0,
                 imagenes: formData.imagenes.filter(img => img.trim() !== ''),
                 isExclusive: formData.isExclusive,
-                precioExclusivo: formData.precioExclusivo ? Number(formData.precioExclusivo) : null
+                precioExclusivo: formData.precioExclusivo ? Number(formData.precioExclusivo) : null,
+                precioXKilo: formData.precioXKilo ? Number(formData.precioXKilo) : 0,
+                esAlimento: formData.esAlimento
             };
 
             if (isEditing) {
@@ -219,6 +225,18 @@ const ProductForm = () => {
                                 <label>Stock Inicial</label>
                                 <input type="number" name="stock" value={formData.stock} onChange={handleChange} />
                             </div>
+                            <div className={styles.formGroup}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', cursor: 'pointer', marginTop: '1.5rem' }}>
+                                    <input
+                                        type="checkbox"
+                                        name="esAlimento"
+                                        checked={formData.esAlimento}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, esAlimento: e.target.checked }))}
+                                        style={{ width: 'auto', accentColor: 'var(--accent-color)' }}
+                                    />
+                                    <span>Es Alimento (Habilita Kilos)</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
@@ -246,6 +264,18 @@ const ProductForm = () => {
                                 <label>Precio con Tarjeta ($)</label>
                                 <input type="number" name="precioCard" value={formData.precioCard} onChange={handleChange} />
                             </div>
+                            {formData.esAlimento && (
+                                <div className={styles.formGroup}>
+                                    <label>Precio por Kilo ($)</label>
+                                    <input
+                                        type="number"
+                                        name="precioXKilo"
+                                        value={formData.precioXKilo}
+                                        onChange={handleChange}
+                                        placeholder="Precio para venta suelta"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
 

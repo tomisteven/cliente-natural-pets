@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { getProducts, getExclusiveProducts } from '../../api/product.api';
+import { getCategories } from '../../api/category.api';
 import { getCombos } from '../../api/combo.api';
 import { useAuth } from '../../context/AuthContext';
 import ProductCard from '../../components/ProductCard/ProductCard';
@@ -21,12 +22,10 @@ const Home = () => {
     const [loadingMore, setLoadingMore] = useState(false);
     const [search, setSearch] = useState('');
     const [categoria, setCategoria] = useState('');
+    const [categories, setCategories] = useState([]);
     const [viewMode, setViewMode] = useState('grid');
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
-    const [categories] = useState([
-        'COOP.PERRO', 'PETTING', 'DOGCHOW', 'DOGUI', 'GANACAN', 'KONGO', 'VORAZ', 'OLD PRINCE', 'ROYAL', 'EUKANUBA', 'PEDIGREE', 'RAZA'
-    ]);
 
     const fetchInitialProducts = useCallback(async () => {
         setLoading(true);
@@ -69,6 +68,19 @@ const Home = () => {
             fetchExclusive();
         }
     }, [isAuthenticated]);
+
+
+    useEffect(() => {
+        const fetchCats = async () => {
+            try {
+                const cats = await getCategories();
+                setCategories(cats.map(c => c.name));
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+        fetchCats();
+    }, []);
 
 
     const loadMoreProducts = async () => {

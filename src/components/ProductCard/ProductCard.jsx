@@ -41,7 +41,7 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
     const hasTiers = product.precioMenor || product.precioMayor || product.precioLista;
 
     // Calculate price per kilo to determine if loose weight purchase is allowed
-    const precioPorKilo = product.kilos > 0 ? Math.round(product.precioLista / product.kilos) : 0;
+    const precioPorKilo = product.precioXKilo || (product.kilos > 0 ? Math.round(product.precioLista / product.kilos) : 0);
     const canSellLoose = precioPorKilo > 0;
 
     return (
@@ -76,7 +76,7 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                 </div>
             </div>
 
-            <div className={styles.content}>
+            <div className={styles.content} onClick={handleToggle} style={{ cursor: 'pointer' }}>
                 <div className={styles.info}>
                     <p className={styles.brand}>{product.categoria}</p>
                     <h3 className={styles.name}>{product.nombre}</h3>
@@ -95,7 +95,7 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                             <div className={styles.priceRow}>
                                 <span className={styles.priceLabel}>$ X KILO:</span>
                                 <span className={styles.price} style={{ fontSize: '1.2rem' }}>
-                                    {formatCurrency(Math.round(product.precioLista / (product.kilos || 1)))}
+                                    {formatCurrency(precioPorKilo)}
                                 </span>
                             </div>
                         )}
@@ -115,7 +115,7 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                                     type="button"
                                 >
                                     {isWeightExpanded ? <FiMinus /> : <FiPlus />}
-                                    <span>{isWeightExpanded ? 'Cerrar' : 'Agregar Kilos'}</span>
+                                    <span>{isWeightExpanded ? 'Cerrar' : 'Venta x Kilo'}</span>
                                 </button>
                             ) : (
                                 <div className={styles.onlyBagLabel}>Bolsa Cerrada</div>
@@ -153,9 +153,12 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
 
                                     <div className={styles.expandedRow}>
                                         <div className={styles.stat}>
-                                            <span className={styles.statLabel}>$ x / Kg:</span>
+                                            <span className={styles.statLabel}>Precio:</span>
                                             <span className={styles.statValueAccent}>
-                                                {formatCurrency(precioPorKilo)}
+                                                {purchaseMode === 'bag' 
+                                                    ? formatCurrency(product.precioMenor > 0 ? product.precioMenor : product.precio)
+                                                    : formatCurrency(precioPorKilo * (extraKilos || 1))
+                                                }
                                             </span>
                                         </div>
 
@@ -197,7 +200,7 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                 {isList && (
                     <button
                         className={styles.listCartBtn}
-                        onClick={() => addToCart(product, 'product')}
+                        onClick={() => addToCart(product, 'product', { purchaseMode, extraKilos })}
                         disabled={product.stock <= 0}
                     >
                         <FiShoppingCart />
