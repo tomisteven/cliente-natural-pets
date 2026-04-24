@@ -46,6 +46,17 @@
     transform: translateY(-1px);
 }
 
+.logoImage {
+    height: 60px;
+    width: auto;
+    transition: var(--transition-smooth);
+    object-fit: contain;
+}
+
+.headerScrolled .logoImage {
+    height: 50px;
+}
+
 .logoSvg {
     height: 48px;
     width: 48px;

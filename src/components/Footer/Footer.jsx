@@ -33,15 +33,27 @@ const Footer = () => {
                     </div>
 
                     <div className={styles.contact}>
-                        <h3>Contacto</h3>
+                        <h3>Sucursales</h3>
                         <ul>
-                            <li>Buenos Aires, Argentina</li>
-                            <li>ventas@mayoristamascotas.com</li>
-                            <li>+54 9 11 1234 5678</li>
+                            <li>Av. Hipólito Yrigoyen 22061 Glew</li>
+                            <li>Mendez 108 Glew</li>
+                            <li>Av. Pte Perón 4803- A. Korn</li>
+                            <li>Alsina 494 Burzaco</li>
+                            <li>E. Burgwardt 1074 Longchamps</li>
                         </ul>
-                        <div className={styles.whatsapp}>
-                            <FiMessageCircle /> <span>WhatsApp Ventas</span>
-                        </div>
+
+                    </div>
+                    <div className={styles.contact}>
+
+                        <h3>WhatsApp Ventas</h3>
+                        <ul>
+                            <li>+54 11 6098 4948</li>
+                            <li>+54 11 6384 6849</li>
+                            <li>+54 11 2656 4050</li>
+                            <li>naturalpetsrl@gmail.com
+                            </li>
+                        </ul>
+
                     </div>
                 </div>
 

@@ -8,6 +8,7 @@ import { useAuth } from '../../context/AuthContext';
 import AuthModal from '../Auth/AuthModal';
 import styles from './Header.module.css';
 import Logo from '../Common/Logo';
+import logo from '../../assets/logosrl.png';
 
 const Header = ({ toggleCart }) => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -44,8 +45,7 @@ const Header = ({ toggleCart }) => {
     return (
         <header className={`${styles.header} ${isScrolled ? styles.headerScrolled : ''}`}>
             <Link to="/" className={styles.logo}>
-                <Logo className={styles.logoSvg} />
-                <span className={styles.brandName}>Natural Pet S.R.L</span>
+                <img className={styles.logoImage} src={logo} alt="Mascotienda" />
             </Link>
 
             <nav className={styles.nav}>

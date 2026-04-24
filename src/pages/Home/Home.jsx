@@ -7,7 +7,6 @@ import { getCombos } from '../../api/combo.api';
 import { useAuth } from '../../context/AuthContext';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import HeroCarousel from '../../components/HeroCarousel/HeroCarousel';
-import DiscountPopup from '../../components/DiscountPopup/DiscountPopup';
 import styles from '../Products/Products.module.css';
 import homeStyles from './Home.module.css';
 import essenceBg from '../../assets/essence_dog.png';
@@ -138,7 +137,6 @@ const Home = () => {
     return (
         <div className={homeStyles.home}>
             <HeroCarousel />
-            <DiscountPopup />
 
             <section className={styles.controlsSection}>
                 <div className={styles.controlsContainer}>
@@ -308,13 +306,13 @@ const Home = () => {
                     <div className={homeStyles.features}>
                         <div className={homeStyles.featureItem}>
                             <div className={homeStyles.featureIcon}><FiAward /></div>
-                            <h3>Calidad Certificada</h3>
-                            <p>Solo trabajamos con laboratorios y marcas líderes en nutrición.</p>
+                            <h3>Gran variedad de marcas y stock</h3>
+                            <p>Tenemos más de 30 marcas en stock permanente.</p>
                         </div>
                         <div className={homeStyles.featureItem}>
                             <div className={homeStyles.featureIcon}><FiTruck /></div>
-                            <h3>Envío Mayorista</h3>
-                            <p>Reparto propio sin cargo para pedidos grandes en toda la zona.</p>
+                            <h3>Envios Sin Cargo</h3>
+                            <p>Adrogue, Burzaco, Longchamps, Glew, Guernica, A.korn, San Vicente, Domselaar</p>
                         </div>
                         <div className={homeStyles.featureItem}>
                             <div className={homeStyles.featureIcon}><FiShield /></div>
