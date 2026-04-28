@@ -103,7 +103,7 @@ function App() {
                                 </main>
 
                                 <Footer />
-                                <DiscountPopup />
+                                {/* <DiscountPopup /> */}
                                 <Toaster
                                     position="bottom-right"
                                     toastOptions={{
