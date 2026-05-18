@@ -8,10 +8,9 @@ const OrderTicket = ({ order }) => {
     return (
         <div id="printable-ticket" className="ticket-container">
             <div className="ticket-header">
-                <span className="store-name">MAYORISTA MASCOTAS</span>
-                <span>Don Torcuato, Buenos Aires</span><br />
-                <span>admin@mayoristamascotas.com</span><br />
-                <span>TEL: 011 3475-0981</span>
+                <span className="store-name">NATURAL PET SRL</span>
+                <span>Av. Hipolito Yrigoyen 22061 - GLEW</span><br />
+                <span>TEL: 1160984948 / 1163846849</span>
             </div>
 
             <div className="ticket-separator"></div>
@@ -101,8 +100,6 @@ const OrderTicket = ({ order }) => {
 
             <div className="ticket-footer">
                 <p>*¡Gracias por su compra!*</p>
-                <p>*Los cambios se realizan con este ticket.*</p>
-                <p style={{ marginTop: '5px' }}>{order._id.slice(-6).toUpperCase()}</p>
             </div>
         </div>
     );
