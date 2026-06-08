@@ -103,7 +103,7 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                 </div>
 
                 {/* Weight Selection UI - Refactored for Compactness */}
-                {product.esAlimento && product.kilos > 0 && (
+                {product.esAlimento && (product.kilos > 0 || product.precioXKilo > 0) && (
                     <div className={`${styles.weightSelector} ${isWeightExpanded ? styles.isExpanded : ''}`}>
                         <div className={styles.weightHeader}>
 
@@ -111,7 +111,7 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                             {canSellLoose ? (
                                 <button
                                     className={`${styles.toggleWeightsBtn} ${isWeightExpanded ? styles.activeToggle : ''}`}
-                                    onClick={() => setIsWeightExpanded(!isWeightExpanded)}
+                                    onClick={(e) => { e.stopPropagation(); setIsWeightExpanded(!isWeightExpanded); }}
                                     type="button"
                                 >
                                     {isWeightExpanded ? <FiMinus /> : <FiPlus />}
@@ -134,17 +134,14 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                                     <div className={styles.modeTabs}>
                                         <button
                                             className={`${styles.modeTab} ${purchaseMode === 'bag' ? styles.activeTab : ''}`}
-                                            onClick={() => setPurchaseMode('bag')}
+                                            onClick={(e) => { e.stopPropagation(); setPurchaseMode('bag'); }}
                                             type="button"
                                         >
                                             Cerrada
                                         </button>
                                         <button
                                             className={`${styles.modeTab} ${purchaseMode === 'kilo' ? styles.activeTab : ''}`}
-                                            onClick={() => {
-                                                setPurchaseMode('kilo');
-                                                setExtraKilos(1);
-                                            }}
+                                            onClick={(e) => { e.stopPropagation(); setPurchaseMode('kilo'); setExtraKilos(1); }}
                                             type="button"
                                         >
                                             x Kilo
@@ -165,7 +162,7 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                                         <div className={styles.qtySelectorCompact}>
                                             <button
                                                 className={styles.qtyBtnSmall}
-                                                onClick={() => setExtraKilos(Math.max(purchaseMode === 'bag' ? 0 : 1, extraKilos - 1))}
+                                                onClick={(e) => { e.stopPropagation(); setExtraKilos(Math.max(purchaseMode === 'bag' ? 0 : 1, extraKilos - 1)); }}
                                                 type="button"
                                                 disabled={purchaseMode === 'bag' ? extraKilos <= 0 : extraKilos <= 1}
                                             >
@@ -176,14 +173,15 @@ const ProductCard = ({ product, viewMode = 'grid', isExpanded, onToggleAccordion
                                                     type="number"
                                                     min={purchaseMode === 'bag' ? "0" : "1"}
                                                     value={extraKilos}
-                                                    onChange={(e) => setExtraKilos(Number(e.target.value))}
+                                                    onClick={(e) => e.stopPropagation()}
+                                                    onChange={(e) => { e.stopPropagation(); setExtraKilos(Number(e.target.value)); }}
                                                     className={styles.qtyInputCompact}
                                                 />
                                                 <span className={styles.qtyUnitCompact}>KG</span>
                                             </div>
                                             <button
                                                 className={styles.qtyBtnSmall}
-                                                onClick={() => setExtraKilos(extraKilos + 1)}
+                                                onClick={(e) => { e.stopPropagation(); setExtraKilos(extraKilos + 1); }}
                                                 type="button"
                                             >
                                                 <FiPlus />
