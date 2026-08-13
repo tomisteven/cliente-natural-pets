@@ -73,10 +73,9 @@ const TicketPreviewModal = ({ order, onClose }) => {
             </head>
             <body>
                 <div class="header">
-                    <span class="store-name">MAYORISTA MASCOTAS</span>
-                    <span>Don Torcuato, Buenos Aires</span><br/>
-                    <span>admin@mayoristamascotas.com</span><br/>
-                    <span>TEL: 011 3475-0981</span>
+                    <span class="store-name">NATURAL PET SRL</span>
+                    <span>Av. Hipolito Yrigoyen 22061 - GLEW</span><br/>
+                    <span>TEL: 1160984948 / 1163846849</span>
                 </div>
                 <div class="separator"></div>
                 <div class="order-id">PEDIDO #${order._id.slice(-6).toUpperCase()}</div>
